@@ -27,7 +27,6 @@
             }
 
         }       
-        
 
         public function queryResult($query) {
             $this->stmt = $this->dbh->prepare($query);
@@ -35,7 +34,13 @@
             return $this->stmt->fetchAll(PDO::FETCH_OBJ);
         }
 
-        public function queryInsert($query) {
+        public function queryResultOne($query) {
+            $this->stmt = $this->dbh->prepare($query);
+            $this->stmt->execute();
+            return $this->stmt->fetch(PDO::FETCH_OBJ);
+        }
+
+        public function queryRow($query) {
             $this->stmt = $this->dbh->prepare($query);
             $this->stmt->execute();
             return $this->stmt->rowCount();

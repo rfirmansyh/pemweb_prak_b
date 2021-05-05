@@ -16,62 +16,53 @@
         $query = "INSERT INTO `mahasiswa` 
                     (`id`, `nim`, `nama`, `prodi`) 
                 VALUES (NULL, '$input_nim', '$input_nama', '$input_prodi')";
-        if ($db->queryInsert($query) > 0) {
+        if ($db->queryRow($query) > 0) {
             header('Location: '.BASE_URL.'/');
+            exit;
         }
         
     }
 
     
-    
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php 
+    $title = 'Data';
+    require_once 'partials/header.php'; 
+?>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Pertemuan 5 PDO</title>
-</head>
-<body>
-    <div class="container py-5">
-        <h1 class="mb-5">Data mahasiswa</h1>
-        
-        <div class="row">
-            <div class="col-lg-6">
-                <h4>Form Tambah Mahasiswa</h4>
-                <form action="" method="POST" class="mb-5">
-                    <input type="text" class="form-control mb-1" name="nim" placeholder="Nim">
-                    <input type="text" class="form-control mb-1" name="nama" placeholder="Nama">
-                    <input type="text" class="form-control mb-1" name="prodi" placeholder="Prodi">
-
-                    <button type="submit" name="button_submit" class="btn btn-primary mt-3">Tambahkan</button>
-                </form>
-            </div>
+<div class="container py-5">
+    <div class="row">
+        <div class="col"><h1 class="mb-5">Data mahasiswa</h1></div>
+        <div class="col-auto">
+            <a href="<?= BASE_URL ?>/create.php" class="btn btn-primary">Tambah Data</a>
         </div>
-
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Nim</th>
-                    <th>Nama</th>
-                    <th>Prodi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($mahasiswa as $mhs): ?>
-                    <tr>
-                        <td><?= $mhs->nim ?></td>
-                        <td><?= $mhs->nama ?></td>
-                        <td><?= $mhs->prodi ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
     </div>
+    
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nim</th>
+                <th>Nama</th>
+                <th>Prodi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($mahasiswa as $mhs): ?>
+                <tr>
+                    <td><?= $mhs->nim ?></td>
+                    <td><?= $mhs->nama ?></td>
+                    <td><?= $mhs->prodi ?></td>
+                    <td style="width: 200px">
+                        <a href="<?= BASE_URL ?>/edit.php?id=<?= $mhs->id ?>" class="btn btn-xs btn-outline-warning">edit</a>
+                        <a href="" class="btn btn-xs btn-outline-danger">hapus</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-</body>
-</html>
+
+<?php require_once 'partials/footer.php'; ?>
